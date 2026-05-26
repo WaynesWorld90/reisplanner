@@ -16,7 +16,7 @@
   --blue:#1A4E7C;--blue-bg:#E6EEF8;
   --amber:#8A5A00;--amber-bg:#FDF3DC;
   --red:#8B2020;--red-bg:#FCEAEA;
-  --ca:#3D5A3E;--za:#8B3A1A;
+  --ca:#3D5A3E;--za:#8B3A1A;--us:#1A3A6B;
 }
 body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min-height:100vh}
 .hero{background:var(--ca);color:white;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
@@ -29,11 +29,12 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 .hero-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border-radius:20px;padding:6px 14px;font-size:12px}
 .main{max-width:960px;margin:0 auto;padding:2rem}
 .section-title{font-family:'Fraunces',serif;font-size:22px;font-weight:500;margin-bottom:1.25rem;color:var(--text)}
-.dest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:2.5rem}
+.dest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-bottom:2.5rem}
 .dest-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:1.25rem;cursor:pointer;transition:all .18s;position:relative}
 .dest-card:hover{border-color:var(--border2);transform:translateY(-2px)}
 .dest-card.active-ca{border:2px solid var(--ca)}
 .dest-card.active-za{border:2px solid var(--za)}
+.dest-card.active-us{border:2px solid var(--us)}
 .dest-card.locked{opacity:.6;cursor:default}
 .dest-card.locked:hover{transform:none;border-color:var(--border)}
 .dest-emoji{font-size:30px;display:block;margin-bottom:10px}
@@ -41,13 +42,14 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 .dest-sub{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.5}
 .badge{position:absolute;top:10px;right:10px;font-size:10px;font-weight:500;padding:3px 8px;border-radius:10px}
 .badge-done{background:var(--green-bg);color:var(--green)}
-.badge-demo{background:#FFF0E8;color:var(--za)}
+.badge-demo{background:#E8EEF8;color:var(--us)}
+.badge-demoza{background:#FFF0E8;color:var(--za)}
 .badge-soon{background:var(--amber-bg);color:var(--amber)}
 .badge-later{background:var(--surface2);color:var(--text3)}
 .detail{display:none;border-radius:16px;border:1.5px solid var(--border);overflow:hidden;margin-bottom:2.5rem;background:var(--surface)}
 .detail.visible{display:block}
 .dh{color:white;padding:1.5rem;display:flex;align-items:center;gap:1rem}
-.dh.ca{background:var(--ca)}.dh.za{background:var(--za)}
+.dh.ca{background:var(--ca)}.dh.za{background:var(--za)}.dh.us{background:var(--us)}
 .de{font-size:40px}
 .dt{font-family:'Fraunces',serif;font-size:20px;font-weight:500}
 .dm{font-size:13px;opacity:.75;margin-top:4px}
@@ -56,6 +58,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 .tab:hover{color:var(--text)}
 .tab.on-ca{color:var(--ca);border-bottom-color:var(--ca)}
 .tab.on-za{color:var(--za);border-bottom-color:var(--za)}
+.tab.on-us{color:var(--us);border-bottom-color:var(--us)}
 .tc{padding:1.5rem;display:none}
 .tc.visible{display:block}
 .rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
@@ -67,13 +70,14 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 .tr{color:var(--red);background:var(--red-bg)}
 .ta{color:var(--amber);background:var(--amber-bg)}
 .tb{color:var(--blue);background:var(--blue-bg)}
+.tus{color:var(--us);background:#E8EEF8}
 .hr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
 .hr:last-child{border-bottom:none}
 .hl{font-size:11px;color:var(--text3);min-width:90px}
 .hn{font-size:13px;color:var(--text);flex:1;line-height:1.4}
 .dd{display:flex;gap:3px;flex-shrink:0}
 .d{width:7px;height:7px;border-radius:50%;background:var(--border2)}
-.d.g{background:var(--green)}.d.z{background:var(--za)}
+.d.g{background:var(--green)}.d.z{background:var(--za)}.d.u{background:var(--us)}
 .bi{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
 .bi:last-child{border-bottom:none;font-weight:500;font-size:14px;padding-top:14px}
 .bl{color:var(--text2)}.bv{color:var(--text);font-weight:500}
@@ -82,7 +86,7 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 .ti:last-child{padding-bottom:0}
 .tll{display:flex;flex-direction:column;align-items:center}
 .td{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:2px}
-.td.ca{background:var(--ca)}.td.za{background:var(--za)}.td.f{background:var(--surface2);border:2px solid var(--border2)}
+.td.ca{background:var(--ca)}.td.za{background:var(--za)}.td.us{background:var(--us)}.td.f{background:var(--surface2);border:2px solid var(--border2)}
 .tln{flex:1;width:1.5px;background:var(--border);margin:4px 0}
 .tdate{font-size:11px;font-weight:500;color:var(--text3);min-width:110px;padding-top:2px}
 .tbody{font-size:13px;color:var(--text);line-height:1.5}
@@ -93,12 +97,12 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 .ag{font-size:11px;padding:3px 10px;border-radius:10px;white-space:nowrap}
 .warn{background:var(--red-bg);border:1px solid rgba(139,32,32,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--red);line-height:1.6}
 .info{background:var(--green-bg);border:1px solid rgba(45,106,79,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--green);line-height:1.6}
+.infobl{background:var(--blue-bg);border:1px solid rgba(26,78,124,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--blue);line-height:1.6}
 .lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:1rem}
 .lc{background:var(--surface2);border-radius:10px;padding:1rem;text-decoration:none;color:inherit;transition:all .15s;border:1px solid transparent;display:block}
 .lc:hover{border-color:var(--border2);transform:translateY(-1px)}
 .lct{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.le{font-size:20px}
-.ln{font-size:13px;font-weight:500;color:var(--text)}
+.le{font-size:20px}.ln{font-size:13px;font-weight:500;color:var(--text)}
 .ld{font-size:11px;color:var(--text2);line-height:1.5}
 .lu{font-size:10px;color:var(--text3);margin-top:4px}
 .rc2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
@@ -106,14 +110,19 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min
 .rcrd{border-radius:12px;padding:1.25rem;border:2px solid}
 .rcg{background:#F0F9F4;border-color:var(--green)}
 .rca{background:#FFF8EC;border-color:#C78B00}
+.rcbl{background:#EEF3FA;border-color:var(--us)}
+.rcr{background:#FDF0F0;border-color:var(--red)}
 .rctt{font-size:14px;font-weight:500;margin-bottom:8px}
 .rcb{font-size:12px;color:var(--text2);line-height:1.7}
 .rcv{display:inline-block;font-size:11px;padding:3px 10px;border-radius:8px;margin-top:8px}
+.cmp-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:1rem}
+.cmp-table th{text-align:left;padding:8px 10px;background:var(--surface2);font-weight:500;font-size:11px;border-bottom:1.5px solid var(--border)}
+.cmp-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+.cmp-table tr:last-child td{border-bottom:none}
 .cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:3rem}
 .cc{background:var(--surface);border:1.5px dashed var(--border2);border-radius:14px;padding:1.25rem}
 .cct{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.ce{font-size:26px}
-.cn{font-family:'Fraunces',serif;font-size:15px;font-weight:500}
+.ce{font-size:26px}.cn{font-family:'Fraunces',serif;font-size:15px;font-weight:500}
 .cb{font-size:12px;color:var(--text2);line-height:1.6}
 .tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px}
 .tag{font-size:10px;padding:2px 8px;border-radius:8px;background:var(--surface2);color:var(--text3)}
@@ -144,17 +153,17 @@ footer{text-align:center;padding:2rem;font-size:12px;color:var(--text3);border-t
     <div class="dest-name">Canada Rockies</div>
     <div class="dest-sub">Calgary → Banff → Jasper → Vancouver</div>
   </div>
-  <div class="dest-card" onclick="go('za',this)">
-    <span class="badge badge-demo">demo</span>
-    <span class="dest-emoji">🇿🇦</span>
-    <div class="dest-name">Zuid-Afrika</div>
-    <div class="dest-sub">Kaapstad · Garden Route · Safari</div>
-  </div>
-  <div class="dest-card locked">
-    <span class="badge badge-soon">in planning</span>
+  <div class="dest-card" onclick="go('us',this)">
+    <span class="badge badge-demo">uitgewerkt</span>
     <span class="dest-emoji">🇺🇸</span>
     <div class="dest-name">USA Westkust</div>
     <div class="dest-sub">Southwest NP of Pacific Coast</div>
+  </div>
+  <div class="dest-card" onclick="go('za',this)">
+    <span class="badge badge-demoza">demo</span>
+    <span class="dest-emoji">🇿🇦</span>
+    <div class="dest-name">Zuid-Afrika</div>
+    <div class="dest-sub">Kaapstad · Garden Route · Safari</div>
   </div>
   <div class="dest-card locked">
     <span class="badge badge-later">later</span>
@@ -170,7 +179,7 @@ footer{text-align:center;padding:2rem;font-size:12px;color:var(--text3);border-t
   </div>
 </div>
 
-<!-- CANADA -->
+<!-- ===================== CANADA ===================== -->
 <div class="detail visible" id="detail-canada">
   <div class="dh ca"><div class="de">🇨🇦</div><div><div class="dt">Canada Rockies — 21 dagen</div><div class="dm">Calgary ✈ · RV Fraserway · 3 personen · Zomer 2027 of 2028</div></div></div>
   <div class="tabs">
@@ -237,7 +246,133 @@ footer{text-align:center;padding:2rem;font-size:12px;color:var(--text3);border-t
   </div>
 </div>
 
-<!-- ZUID-AFRIKA -->
+<!-- ===================== USA WESTKUST ===================== -->
+<div class="detail" id="detail-us">
+  <div class="dh us"><div class="de">🇺🇸</div><div><div class="dt">USA Westkust — twee routes vergeleken</div><div class="dm">Los Angeles ✈ · Huurauto of camper · 3 personen · Zomer (oppassen: hitte!)</div></div></div>
+  <div class="tabs">
+    <button class="tab on-us" onclick="st('us','vergelijk',this)">Vergelijking</button>
+    <button class="tab" onclick="st('us','southwest',this)">Route 1 — Southwest</button>
+    <button class="tab" onclick="st('us','coast',this)">Route 2 — Westkust</button>
+    <button class="tab" onclick="st('us','budget',this)">Budget</button>
+    <button class="tab" onclick="st('us','parkpass',this)">Parkpas ⚠️</button>
+    <button class="tab" onclick="st('us','ages',this)">Leeftijden</button>
+  </div>
+
+  <div class="tc visible" id="us-vergelijk">
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1.25rem;line-height:1.7">We hebben twee routes vergeleken. De Southwest is de meest indrukwekkende naturroute; de Westkust combineert steden en kust. Voor een gezin met peuter zijn beide uitdagend door hitte — wacht bij voorkeur tot kind 5+ is.</p>
+    <table class="cmp-table">
+      <tr><th></th><th>🏜️ Southwest NP</th><th>🌊 Pacific Westkust</th></tr>
+      <tr><td><strong>Route</strong></td><td>LA → Grand Canyon → Zion → Bryce → Arches → Yosemite → SF</td><td>Seattle → Portland → Oregon → Redwoods → SF → Big Sur → LA</td></tr>
+      <tr><td><strong>Duur</strong></td><td>14 dagen</td><td>12 dagen</td></tr>
+      <tr><td><strong>Km</strong></td><td>~3.000 km</td><td>~2.200 km</td></tr>
+      <tr><td><strong>Sfeer</strong></td><td>Woestijn · canyons · gletsjers</td><td>Kust · steden · regenwoud</td></tr>
+      <tr><td><strong>Steden</strong></td><td>LA, San Francisco</td><td>Seattle, Portland, SF, LA</td></tr>
+      <tr><td><strong>Natuur ⭐</strong></td><td>⭐⭐⭐⭐⭐</td><td>⭐⭐⭐⭐</td></tr>
+      <tr><td><strong>Stad &amp; cultuur</strong></td><td>⭐⭐⭐</td><td>⭐⭐⭐⭐⭐</td></tr>
+      <tr><td><strong>Zomerhitte</strong></td><td>⚠️ Tot 40°C+</td><td>Aangenamer (15–25°C)</td></tr>
+      <tr><td><strong>Vluchten (3p)</strong></td><td>€2.890</td><td>€2.890</td></div></tr>
+      <tr><td><strong>Totaal (3p)</strong></td><td><strong>€8.500 – €11.000</strong></td><td><strong>€7.500 – €9.500</strong></td></tr>
+      <tr><td><strong>Met peuter</strong></td><td>⚠️ Wacht tot 5+</td><td>🟡 Mogelijk maar warm</td></tr>
+    </table>
+    <div class="warn" style="margin-top:1rem">⚠️ <strong>Zomerhitte Southwest:</strong> In juli/augustus stijgt de temperatuur in Grand Canyon, Zion en Arches tot 38–42°C. Gevaarlijk voor jonge kinderen — ook aan de canyon randen. Wacht met deze route tot je zoontje minstens 5 jaar is, of reis in mei of september.</div>
+  </div>
+
+  <div class="tc" id="us-southwest">
+    <div class="infobl">🗺️ <strong>Route:</strong> Los Angeles → Joshua Tree → Grand Canyon → Sedona → Monument Valley → Antelope Canyon → Zion NP → Bryce Canyon → Arches/Canyonlands → Death Valley → Yosemite → San Francisco · 14 dagen · open-jaw vlucht</div>
+    <div class="rg">
+      <div class="rc"><div class="rt">🌴 Dag 1–2 · Los Angeles</div><div class="rb">Camper ophalen · Venice Beach<br>Getty Museum · Hollywood<br>Santa Monica Pier</div><span class="rtag tus">Startstad</span></div>
+      <div class="rc"><div class="rt">🪨 Dag 3 · Joshua Tree NP</div><div class="rb">Woestijn &amp; rotsformaties<br>Cholla Cactus Garden<br>Sterrenhemel 's nachts</div><span class="rtag tus">Woestijnsafari</span></div>
+      <div class="rc"><div class="rt">🏔️ Dag 4–5 · Grand Canyon</div><div class="rb">South Rim uitzichtpunten<br>Zonsondergang &amp; -opgang<br>⚠️ Gevaarlijk met peuter</div><span class="rtag tr">Hitte + gevaar randen</span></div>
+      <div class="rc"><div class="rt">🔴 Dag 6 · Sedona</div><div class="rb">Red rocks &amp; Cathedral Rock<br>Jeep tours beschikbaar<br>Leuke restaurants &amp; winkels</div><span class="rtag tus">Fotogeniek</span></div>
+      <div class="rc"><div class="rt">🏜️ Dag 7 · Monument Valley + Page</div><div class="rb">Navajo Nation toestemming<br>Horseshoe Bend (spectaculair!)<br>⚠️ Rand: geen leuning</div><span class="rtag ta">Iconisch</span></div>
+      <div class="rc"><div class="rt">🌀 Dag 8 · Antelope Canyon</div><div class="rb">Lichtstralen in slot canyon<br>Guided tour verplicht<br>Boek maanden op voorhand!</div><span class="rtag tus">Must-see</span></div>
+      <div class="rc"><div class="rt">🏔️ Dag 9 · Zion NP</div><div class="rb">Angels Landing (te gevaarlijk)<br>The Narrows: wandelen in rivier<br>Pa'rus Trail: kinderwagen ok</div><span class="rtag tg">Pa'rus Trail veilig</span></div>
+      <div class="rc"><div class="rt">🍄 Dag 10 · Bryce Canyon NP</div><div class="rb">Hoodoos: spectaculaire rotspilaren<br>Rim Trail vlak en veilig<br>Thor's Hammer uitzichtpunt</div><span class="rtag tg">Rim Trail ok</span></div>
+      <div class="rc"><div class="rt">🌅 Dag 11 · Arches + Canyonlands</div><div class="rb">Delicate Arch (2,9 km hike)<br>Balanced Rock: 5 min loopje<br>Canyonlands uitzicht Island in the Sky</div><span class="rtag tus">Iconische bogen</span></div>
+      <div class="rc"><div class="rt">🔥 Dag 12 · Death Valley</div><div class="rb">Zabriskie Point · Badwater Basin<br>Laagste punt Noord-Amerika<br>⚠️ Soms 48°C+ in de zomer</div><span class="rtag tr">Extreem warm</span></div>
+      <div class="rc"><div class="rt">🌲 Dag 13 · Yosemite NP</div><div class="rb">El Capitan · Yosemite Valley<br>Mirror Lake: vlak en kindvriendelijk<br>Valley shuttle makkelijk</div><span class="rtag tg">Mirror Lake ok</span></div>
+      <div class="rc"><div class="rt">🌉 Dag 14 · San Francisco</div><div class="rb">Camper inleveren · Golden Gate<br>Fisherman's Wharf · Alcatraz<br>Vlucht terug naar huis</div><span class="rtag tus">Perfecte finale</span></div>
+    </div>
+  </div>
+
+  <div class="tc" id="us-coast">
+    <div class="infobl">🗺️ <strong>Route:</strong> Seattle → Olympic NP → Portland → Oregon Coast → Crater Lake → Redwood NP → San Francisco → Big Sur → Monterey → Santa Barbara → Los Angeles · 12 dagen · open-jaw vlucht</div>
+    <div class="rg">
+      <div class="rc"><div class="rt">🌧️ Dag 1–2 · Seattle</div><div class="rb">Pike Place Market<br>Space Needle · Chihuly Garden<br>Olympic NP dagtrip (regenwoud!)</div><span class="rtag tus">Startstad</span></div>
+      <div class="rc"><div class="rt">🌹 Dag 3 · Portland</div><div class="rb">Powell's Books · Donut shops<br>Cannon Beach (Goonies-rots!)<br>Kindvriendelijke stad</div><span class="rtag tg">Gezinsvriendelijk</span></div>
+      <div class="rc"><div class="rt">🌊 Dag 4 · Oregon Coast</div><div class="rb">Highway 101 langs de kust<br>Haystack Rock · tidal pools<br>Zeeleeuwen bij Sea Lion Caves</div><span class="rtag tg">Stranddagen</span></div>
+      <div class="rc"><div class="rt">🌋 Dag 5 · Crater Lake NP</div><div class="rb">Diepste meer van de VS<br>Indrukwekkend blauw water<br>Korte omweg maar absoluut waard</div><span class="rtag tus">Verborgen parel</span></div>
+      <div class="rc"><div class="rt">🌲 Dag 6 · Redwood NP</div><div class="rb">Hoogste bomen ter wereld<br>Lady Bird Johnson Grove<br>Vlak pad, kinderwagen mogelijk</div><span class="rtag tg">Peuter-proof</span></div>
+      <div class="rc"><div class="rt">🌁 Dag 7–8 · San Francisco</div><div class="rb">Golden Gate Bridge · Alcatraz<br>Fisherman's Wharf · Chinatown<br>Cable cars · Exploratorium</div><span class="rtag tus">Iconische stad</span></div>
+      <div class="rc"><div class="rt">🏔️ Dag 9 · Big Sur</div><div class="rb">Highway 1: mooiste kustrit VS<br>Bixby Bridge · McWay Falls<br>Vlak pad naar de waterval</div><span class="rtag tg">McWay Falls ok</span></div>
+      <div class="rc"><div class="rt">🦭 Dag 10 · Monterey + Carmel</div><div class="rb">Monterey Bay Aquarium (top!)<br>17-Mile Drive zeehonden<br>Carmel Beach peuter-proof</div><span class="rtag tg">Aquarium top!</span></div>
+      <div class="rc"><div class="rt">🌴 Dag 11 · Santa Barbara</div><div class="rb">Mission Santa Barbara<br>Stearns Wharf · strand<br>Wijngebied nabij</div><span class="rtag tus">Relaxte stop</span></div>
+      <div class="rc"><div class="rt">🎬 Dag 12 · Los Angeles</div><div class="rb">Venice Beach · Griffith Observatory<br>Hollywood · Camper inleveren<br>Vlucht terug naar huis</div><span class="rtag tus">Finale stad</span></div>
+    </div>
+  </div>
+
+  <div class="tc" id="us-budget">
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Schattingen voor gezin van 3 personen. De Southwest is duurder door meer parken en langere rijafstanden.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+      <div>
+        <p style="font-size:12px;font-weight:500;color:var(--us);margin-bottom:10px">🏜️ Southwest NP (14 dagen)</p>
+        <div class="bi"><span class="bl">✈️ Open-jaw vluchten (3p)</span><span class="bv">€2.890</span></div>
+        <div class="bi"><span class="bl">🚐 Camper 13 dagen</span><span class="bv">€2.115</span></div>
+        <div class="bi"><span class="bl">🔄 One-way toeslag</span><span class="bv">€320</span></div>
+        <div class="bi"><span class="bl">🎫 America the Beautiful Pass (2×$250)</span><span class="bv">€460</span></div>
+        <div class="bi"><span class="bl">🏕️ Campings 13 nachten</span><span class="bv">€600</span></div>
+        <div class="bi"><span class="bl">⛽ Brandstof ~3.000 km</span><span class="bv">€395</span></div>
+        <div class="bi"><span class="bl">🛒 Eten &amp; activiteiten</span><span class="bv">€1.155</span></div>
+        <div class="bi"><span class="bl">Totaal (3p)</span><span class="bv">€7.935</span></div>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:500;color:var(--us);margin-bottom:10px">🌊 Pacific Westkust (12 dagen)</p>
+        <div class="bi"><span class="bl">✈️ Open-jaw vluchten (3p)</span><span class="bv">€2.890</span></div>
+        <div class="bi"><span class="bl">🚐 Camper 11 dagen</span><span class="bv">€1.870</span></div>
+        <div class="bi"><span class="bl">🔄 One-way toeslag</span><span class="bv">€290</span></div>
+        <div class="bi"><span class="bl">🎫 Parkingangen (geen pass)</span><span class="bv">€0</span></div>
+        <div class="bi"><span class="bl">🏕️ Campings 11 nachten</span><span class="bv">€505</span></div>
+        <div class="bi"><span class="bl">⛽ Brandstof ~2.200 km</span><span class="bv">€295</span></div>
+        <div class="bi"><span class="bl">🛒 Eten &amp; activiteiten</span><span class="bv">€1.035</span></div>
+        <div class="bi"><span class="bl">Totaal (3p)</span><span class="bv">€6.885</span></div>
+      </div>
+    </div>
+    <div class="infobl" style="margin-top:1rem">💡 Bovenstaande budgetten zijn berekend voor 2 volwassenen + 1 kind. Vliegticket kind = ~75% van volwassenprijs.</div>
+  </div>
+
+  <div class="tc" id="us-parkpass">
+    <div class="warn">⚠️ <strong>Nieuwe parkingangtoeslag voor niet-Amerikanen (vanaf 1 jan 2026):</strong> Niet-Amerikaanse bezoekers betalen $100 extra per persoon per park bij de 11 populairste parken — waaronder Grand Canyon, Zion, Bryce Canyon en Yosemite.</div>
+    <div class="rc2">
+      <div class="rcrd rcr">
+        <div class="rctt">❌ Zonder pas — heel duur</div>
+        <div class="rcb">2 volwassenen × 4 parken × $100 = <strong>$800</strong><br>Kind (3–15j) = gratis<br>+ standaard ingangstickets<br>→ Totaal parkingang: ~$900+</div>
+        <span class="rcv" style="background:var(--red-bg);color:var(--red)">Niet doen</span>
+      </div>
+      <div class="rcrd rcg">
+        <div class="rctt">✅ America the Beautiful Non-Resident Pass</div>
+        <div class="rcb">$250 per persoon per jaar<br>2 volwassenen = $500 (±€460)<br>Dekt alle nationale parken<br>→ Bij 3+ parken al voordeliger</div>
+        <span class="rcv" style="background:var(--green-bg);color:var(--green)">Koop altijd deze pas ✅</span>
+      </div>
+    </div>
+    <div class="rg" style="margin-top:1rem">
+      <div class="rc"><div class="rt">🏜️ Grand Canyon</div><div class="rb">$35 standaard + $100 toeslag p.p.<br>= $235 voor 2 volw. zonder pas<br>Pas: al terugverdiend</div></div>
+      <div class="rc"><div class="rt">🏔️ Zion NP</div><div class="rb">$35 + $100 toeslag p.p.<br>Shuttle verplicht — geen eigen auto<br>Reserveer shuttle op voorhand</div></div>
+      <div class="rc"><div class="rt">🍄 Bryce Canyon</div><div class="rb">$35 + $100 toeslag p.p.<br>Rim Trail toegankelijk met pas<br>Beste uitzicht: Sunrise Point</div></div>
+      <div class="rc"><div class="rt">🌲 Yosemite NP</div><div class="rb">$35 + $100 toeslag p.p.<br>Timed entry verplicht boeken!<br>recreation.gov · maanden op voorhand</div></div>
+    </div>
+  </div>
+
+  <div class="tc" id="us-ages">
+    <div class="warn">⚠️ <strong>Zomerhitte:</strong> De Southwest is in juli/augustus gevaarlijk heet voor jonge kinderen. Grand Canyon, Zion en Arches kunnen 40°C+ halen. Wacht met de Southwest-route tot je zoontje minstens 5 jaar is.</div>
+    <div class="ar"><span class="al">Nu · 2 jaar</span><span class="at">Veel te jong — hitte, canyon randen, lange ritten</span><span class="ag" style="background:var(--red-bg);color:var(--red)">niet doen</span></div>
+    <div class="ar"><span class="al">3–4 jaar</span><span class="at">Westkust in mei/sept mogelijk · Southwest nog te warm</span><span class="ag" style="background:var(--amber-bg);color:var(--amber)">enkel kust</span></div>
+    <div class="ar"><span class="al">5–6 jaar</span><span class="at">Southwest in mei of september (buiten hittepiek) ok · Westkust prima</span><span class="ag" style="background:var(--green-bg);color:var(--green)">go!</span></div>
+    <div class="ar"><span class="al">7+ jaar</span><span class="at">Volledige Southwest in zomer · Angels Landing en langere hikes mogelijk</span><span class="ag" style="background:var(--green-bg);color:var(--green)">ideaal</span></div>
+    <p style="font-size:12px;color:var(--text3);margin-top:14px">💡 Tip: de Pacific Westkust (Seattle→LA) is kindvriendelijker in de zomer dan de Southwest — aangenamere temperaturen en meer strandopties.</p>
+  </div>
+</div>
+
+<!-- ===================== ZUID-AFRIKA ===================== -->
 <div class="detail" id="detail-za">
   <div class="dh za"><div class="de">🇿🇦</div><div><div class="dt">Zuid-Afrika — 14 à 21 dagen</div><div class="dm">Kaapstad ✈ · Huurauto · 3 personen · Beste tijd: mei – september</div></div></div>
   <div class="tabs">
@@ -262,58 +397,56 @@ footer{text-align:center;padding:2rem;font-size:12px;color:var(--text3);border-t
         <span class="rcv" style="background:var(--amber-bg);color:var(--amber)">Wacht tot kind 6+ jaar is ⏳</span>
       </div>
     </div>
-    <div class="info">💡 <strong>Malariavrij safari alternatief:</strong> Addo Elephant NP (Eastern Cape), Pilanesberg NP (North West) en Aquila Private Game Reserve (nabij Kaapstad) bieden alle drie Big Five — zonder enig malariarisico.</div>
+    <div class="info">💡 <strong>Malariavrij safari alternatief:</strong> Addo Elephant NP, Pilanesberg NP en Aquila Private Game Reserve (nabij Kaapstad) bieden alle drie Big Five — zonder enig malariarisico.</div>
   </div>
   <div class="tc" id="za-stops">
     <div class="rg">
-      <div class="rc"><div class="rt">🌄 Kaapstad</div><div class="rb">Tafelberg kabelbaan · Bo-Kaap wijk<br>Boulders Beach pinguïns<br>Kaap de Goede Hoop<br>Chapman's Peak Drive<br>V&amp;A Waterfront</div><span class="rtag tg">Perfecte startstad</span></div>
-      <div class="rc"><div class="rt">🐋 Hermanus</div><div class="rb">Walvissen spotten (jul–nov)<br>Stony Point pinguïnkolonie<br>Tidal pools voor kinderen<br>Relaxte kustsfeer</div><span class="rtag tb">Jul–Nov beste tijd</span></div>
-      <div class="rc"><div class="rt">🌿 Knysna</div><div class="rb">Knysna Heads uitzichtpunt<br>Lagune kayakken<br>Tsitsikamma bos<br>Knysna olifanten</div><span class="rtag tg">Malariavrij</span></div>
-      <div class="rc"><div class="rt">🌊 Tsitsikamma NP</div><div class="rb">Hangbruggen in het regenwoud<br>Storms River Mouth wandeling<br>Bloukrans Bridge bungyjump<br>Zeekajak tours</div><span class="rtag tg">Malariavrij</span></div>
-      <div class="rc"><div class="rt">🐘 Addo Elephant NP</div><div class="rb">Zuid-Afrika's 3e grootste park<br>Big Five · 100% malariavrij<br>Olifanten naast je auto!<br>Kindvriendelijke rest camps</div><span class="rtag tg">Beste keuze peuters ✅</span></div>
-      <div class="rc"><div class="rt">🦁 Kruger NP</div><div class="rb">Self-drive of geleide game drives<br>Big Five kans zeer hoog<br>Skukuza: speeltuin &amp; zwembad<br>Sunrise &amp; sunset drives</div><span class="rtag tr">Malaria ⚠️ wacht tot 6+</span></div>
-      <div class="rc"><div class="rt">🏔️ Blyde River Canyon</div><div class="rb">3e grootste canyon ter wereld<br>God's Window uitzicht<br>Bourke's Luck Potholes<br>Drie Rondavels formatie</div><span class="rtag ta">Combineer met Kruger</span></div>
-      <div class="rc"><div class="rt">🍷 Kaapse Wijnlanden</div><div class="rb">Stellenbosch &amp; Franschhoek<br>Kindvriendelijke wijnboerderijen<br>Prachtige berglandschappen<br>Halve dag vanuit Kaapstad</div><span class="rtag tg">Daguitstap</span></div>
+      <div class="rc"><div class="rt">🌄 Kaapstad</div><div class="rb">Tafelberg kabelbaan · Bo-Kaap<br>Boulders Beach pinguïns<br>Kaap de Goede Hoop<br>Chapman's Peak Drive</div><span class="rtag tg">Perfecte startstad</span></div>
+      <div class="rc"><div class="rt">🐋 Hermanus</div><div class="rb">Walvissen spotten (jul–nov)<br>Stony Point pinguïnkolonie<br>Tidal pools voor kinderen</div><span class="rtag tb">Jul–Nov beste tijd</span></div>
+      <div class="rc"><div class="rt">🌿 Knysna</div><div class="rb">Knysna Heads uitzichtpunt<br>Lagune kayakken<br>Tsitsikamma bos · Knysna olifanten</div><span class="rtag tg">Malariavrij</span></div>
+      <div class="rc"><div class="rt">🌊 Tsitsikamma NP</div><div class="rb">Hangbruggen in het regenwoud<br>Storms River Mouth wandeling<br>Bloukrans Bridge bungyjump</div><span class="rtag tg">Malariavrij</span></div>
+      <div class="rc"><div class="rt">🐘 Addo Elephant NP</div><div class="rb">Big Five · 100% malariavrij<br>Olifanten naast je auto!<br>Kindvriendelijke rest camps</div><span class="rtag tg">Beste keuze peuters ✅</span></div>
+      <div class="rc"><div class="rt">🦁 Kruger NP</div><div class="rb">Self-drive of geleide game drives<br>Big Five kans zeer hoog<br>Skukuza: speeltuin &amp; zwembad</div><span class="rtag tr">Malaria ⚠️ wacht tot 6+</span></div>
+      <div class="rc"><div class="rt">🏔️ Blyde River Canyon</div><div class="rb">3e grootste canyon ter wereld<br>God's Window · Bourke's Luck Potholes<br>Drie Rondavels formatie</div><span class="rtag ta">Combineer met Kruger</span></div>
+      <div class="rc"><div class="rt">🍷 Kaapse Wijnlanden</div><div class="rb">Stellenbosch &amp; Franschhoek<br>Kindvriendelijke wijnboerderijen<br>Halve dag vanuit Kaapstad</div><span class="rtag tg">Daguitstap</span></div>
     </div>
   </div>
   <div class="tc" id="za-budget">
-    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Schatting voor Garden Route, 14 dagen, gezin van 3. Zuid-Afrika is relatief goedkoop voor Europeanen (1 EUR ≈ 20 ZAR).</p>
-    <div class="bi"><span class="bl">✈️ Vluchten AMS → Kaapstad retour (3 pers.)</span><span class="bv">€2.400 – €3.200</span></div>
-    <div class="bi"><span class="bl">🚗 Huurauto 13 dagen (gezinsauto)</span><span class="bv">€600 – €1.000</span></div>
-    <div class="bi"><span class="bl">🏨 Accommodatie 13 nachten (lodges/guesthouses)</span><span class="bv">€800 – €1.800</span></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Schatting Garden Route, 14 dagen, gezin van 3. Zuid-Afrika is relatief goedkoop (1 EUR ≈ 20 ZAR).</p>
+    <div class="bi"><span class="bl">✈️ Vluchten AMS → Kaapstad retour (3p)</span><span class="bv">€2.400 – €3.200</span></div>
+    <div class="bi"><span class="bl">🚗 Huurauto 13 dagen</span><span class="bv">€600 – €1.000</span></div>
+    <div class="bi"><span class="bl">🏨 Accommodatie 13 nachten</span><span class="bv">€800 – €1.800</span></div>
     <div class="bi"><span class="bl">⛽ Brandstof ~1.200 km</span><span class="bv">€120 – €180</span></div>
-    <div class="bi"><span class="bl">🐘 Parkingang (Addo, Tafelberg, pinguïns...)</span><span class="bv">€150 – €250</span></div>
+    <div class="bi"><span class="bl">🐘 Parkingang (Addo, Tafelberg...)</span><span class="bv">€150 – €250</span></div>
     <div class="bi"><span class="bl">🛒 Eten &amp; restaurants</span><span class="bv">€500 – €800</span></div>
     <div class="bi"><span class="bl">🎒 Activiteiten &amp; uitstappen</span><span class="bv">€300 – €500</span></div>
-    <div class="bi"><span class="bl">Totaal gezin van 3 (Garden Route)</span><span class="bv">€4.870 – €7.730</span></div>
+    <div class="bi"><span class="bl">Totaal gezin van 3</span><span class="bv">€4.870 – €7.730</span></div>
   </div>
   <div class="tc" id="za-tips">
-    <div class="warn">⚠️ <strong>Malaria — belangrijk voor jonge kinderen:</strong> Kruger NP is malaria-risicogebied, hoogste risico oktober–mei. Kindermalariamedicatie bestaat maar moet door een kinderarts worden voorgeschreven. Raadpleeg je huisarts minstens 6 weken voor vertrek. Voor kinderen onder 6 jaar raden we een malariavrij alternatief aan (Addo of Pilanesberg).</div>
-    <div class="info">✅ <strong>Malariavrije opties met Big Five:</strong> Addo Elephant NP · Pilanesberg NP · Aquila Private Game Reserve (nabij Kaapstad)</div>
+    <div class="warn">⚠️ <strong>Malaria — belangrijk voor jonge kinderen:</strong> Kruger NP is een malaria-risicogebied. Raadpleeg je huisarts minstens 6 weken voor vertrek. Voor kinderen onder 6 jaar raden we malariavrije alternatieven aan.</div>
+    <div class="info">✅ <strong>Malariavrije safari-opties:</strong> Addo Elephant NP · Pilanesberg NP · Aquila Game Reserve (nabij Kaapstad)</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1rem">
-      <div class="rc"><div class="rt">🕐 Beste reistijd</div><div class="rb">Mei–september = droog seizoen = onze zomermaanden. Aangenaam weer (15–25°C), geen malaria piek, dieren verzamelen bij waterpoelen = makkelijker spotten.</div></div>
-      <div class="rc"><div class="rt">✈️ Vlucht &amp; tijdsverschil</div><div class="rb">AMS → Kaapstad ±11 uur direct met KLM of SA Airways. Slechts 1 uur tijdsverschil — ideaal voor kinderen!</div></div>
-      <div class="rc"><div class="rt">🚗 Links rijden</div><div class="rb">In Zuid-Afrika rijdt men links. Wegen langs de Garden Route zijn uitstekend. Vermijd 's nachts rijden buiten steden en townships.</div></div>
-      <div class="rc"><div class="rt">🔒 Veiligheid</div><div class="rb">Toeristische gebieden en lodges zijn veilig. Gebruik altijd een beveiligd appartement of guesthouse. Lokaal advies over veiligheid altijd opvolgen.</div></div>
+      <div class="rc"><div class="rt">🕐 Beste reistijd</div><div class="rb">Mei–september = droog seizoen = onze zomermaanden. 15–25°C, geen malaria piek, makkelijker wildlife spotten.</div></div>
+      <div class="rc"><div class="rt">✈️ Vlucht &amp; tijdsverschil</div><div class="rb">AMS → Kaapstad ±11 uur direct. Slechts 1 uur tijdsverschil — ideaal voor kinderen!</div></div>
+      <div class="rc"><div class="rt">🚗 Links rijden</div><div class="rb">In Zuid-Afrika rijdt men links. Wegen langs de Garden Route zijn uitstekend. Vermijd 's nachts rijden.</div></div>
+      <div class="rc"><div class="rt">🔒 Veiligheid</div><div class="rb">Toeristische gebieden en lodges zijn veilig. Lokaal veiligheidsadvies altijd opvolgen.</div></div>
     </div>
   </div>
   <div class="tc" id="za-ages">
     <div class="ar"><span class="al">Nu · 2 jaar</span><span class="at">Te jong voor lange vluchten en safaris</span><span class="ag" style="background:var(--surface2);color:var(--text3)">nog niet</span></div>
-    <div class="ar"><span class="al">3–5 jaar</span><span class="at">Garden Route ✅ · Addo olifanten ✅ · Kruger ⚠️ malaria</span><span class="ag" style="background:var(--green-bg);color:var(--green)">Garden Route ok</span></div>
-    <div class="ar"><span class="al">6–8 jaar</span><span class="at">Kruger self-drive nu mogelijk met medicatie · meer activiteiten</span><span class="ag" style="background:var(--green-bg);color:var(--green)">ideaal</span></div>
+    <div class="ar"><span class="al">3–5 jaar</span><span class="at">Garden Route ✅ · Addo olifanten ✅ · Kruger ⚠️</span><span class="ag" style="background:var(--green-bg);color:var(--green)">Garden Route ok</span></div>
+    <div class="ar"><span class="al">6–8 jaar</span><span class="at">Kruger self-drive mogelijk met medicatie</span><span class="ag" style="background:var(--green-bg);color:var(--green)">ideaal</span></div>
     <div class="ar"><span class="al">8+ jaar</span><span class="at">Volledige tour: Kruger + Garden Route + Kaapstad</span><span class="ag" style="background:var(--green-bg);color:var(--green)">ultieme trip</span></div>
-    <p style="font-size:12px;color:var(--text3);margin-top:14px">💡 Privé game lodge met bewuste wildlife guides is veiliger dan self-drive Kruger voor peuters — altijd een optie om te overwegen.</p>
   </div>
   <div class="tc" id="za-links">
-    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Handige links voor verdere research:</p>
     <div class="lg">
-      <a href="https://www.sanparks.org/parks/addo/" target="_blank" class="lc"><div class="lct"><span class="le">🐘</span><span class="ln">Addo Elephant NP</span></div><div class="ld">Officiële SANParks pagina — reservaties, tarieven en kaarten</div><div class="lu">sanparks.org/addo</div></a>
-      <a href="https://www.sanparks.org/parks/kruger/" target="_blank" class="lc"><div class="lct"><span class="le">🦁</span><span class="ln">Kruger National Park</span></div><div class="ld">Officiële site — kamperen, self-drive routes, rest camps boeken</div><div class="lu">sanparks.org/kruger</div></a>
-      <a href="https://www.tablemountain.net/" target="_blank" class="lc"><div class="lct"><span class="le">🏔️</span><span class="ln">Tafelberg Kabelbaan</span></div><div class="ld">Tickets, openingstijden en weerinformatie voor de Tafelberg</div><div class="lu">tablemountain.net</div></a>
-      <a href="https://www.pilanesberg-game-reserve.co.za/" target="_blank" class="lc"><div class="lct"><span class="le">🦏</span><span class="ln">Pilanesberg NP</span></div><div class="ld">Malariavrij safari park nabij Johannesburg — Big Five</div><div class="lu">pilanesberg-game-reserve.co.za</div></a>
-      <a href="https://kleineglobetrotter.nl/zuid-afrika-met-kinderen-zien-en-doen/" target="_blank" class="lc"><div class="lct"><span class="le">👨‍👩‍👧</span><span class="ln">Kleine Globetrotter ZA</span></div><div class="ld">Nederlandse blog: Zuid-Afrika met kinderen, routes en tips</div><div class="lu">kleineglobetrotter.nl</div></a>
-      <a href="https://thetravelingkid.nl/rondreis-zuid-afrika-met-kinderen/" target="_blank" class="lc"><div class="lct"><span class="le">🗺️</span><span class="ln">The Traveling Kid</span></div><div class="ld">Kindvriendelijke roadtrip: ervaringen van een Nederlands gezin</div><div class="lu">thetravelingkid.nl</div></a>
-      <a href="https://www.sa-venues.com/whale-watching/hermanus.htm" target="_blank" class="lc"><div class="lct"><span class="le">🐋</span><span class="ln">Walvissen Hermanus</span></div><div class="ld">Walvisseizoen, boot tours en beste kijkplekken in Hermanus</div><div class="lu">sa-venues.com</div></a>
+      <a href="https://www.sanparks.org/parks/addo/" target="_blank" class="lc"><div class="lct"><span class="le">🐘</span><span class="ln">Addo Elephant NP</span></div><div class="ld">Officiële SANParks — reservaties, tarieven en kaarten</div><div class="lu">sanparks.org/addo</div></a>
+      <a href="https://www.sanparks.org/parks/kruger/" target="_blank" class="lc"><div class="lct"><span class="le">🦁</span><span class="ln">Kruger National Park</span></div><div class="ld">Kamperen, self-drive routes, rest camps boeken</div><div class="lu">sanparks.org/kruger</div></a>
+      <a href="https://www.tablemountain.net/" target="_blank" class="lc"><div class="lct"><span class="le">🏔️</span><span class="ln">Tafelberg Kabelbaan</span></div><div class="ld">Tickets, openingstijden en weerinformatie</div><div class="lu">tablemountain.net</div></a>
+      <a href="https://www.pilanesberg-game-reserve.co.za/" target="_blank" class="lc"><div class="lct"><span class="le">🦏</span><span class="ln">Pilanesberg NP</span></div><div class="ld">Malariavrij safari park — Big Five nabij Joburg</div><div class="lu">pilanesberg-game-reserve.co.za</div></a>
+      <a href="https://kleineglobetrotter.nl/zuid-afrika-met-kinderen-zien-en-doen/" target="_blank" class="lc"><div class="lct"><span class="le">👨‍👩‍👧</span><span class="ln">Kleine Globetrotter ZA</span></div><div class="ld">Nederlandse blog: Zuid-Afrika met kinderen</div><div class="lu">kleineglobetrotter.nl</div></a>
+      <a href="https://thetravelingkid.nl/rondreis-zuid-afrika-met-kinderen/" target="_blank" class="lc"><div class="lct"><span class="le">🗺️</span><span class="ln">The Traveling Kid</span></div><div class="ld">Kindvriendelijke roadtrip door Zuid-Afrika</div><div class="lu">thetravelingkid.nl</div></a>
+      <a href="https://www.sa-venues.com/whale-watching/hermanus.htm" target="_blank" class="lc"><div class="lct"><span class="le">🐋</span><span class="ln">Walvissen Hermanus</span></div><div class="ld">Walvisseizoen, tours en beste kijkplekken</div><div class="lu">sa-venues.com</div></a>
       <a href="https://www.snoezelsontheroad.com/en/south-africa/garden-route-in-south-africa-ultimate-7-day-itinerary/" target="_blank" class="lc"><div class="lct"><span class="le">🌿</span><span class="ln">Garden Route 7-daags</span></div><div class="ld">Uitgebreide dag-voor-dag planning Garden Route</div><div class="lu">snoezelsontheroad.com</div></a>
     </div>
   </div>
@@ -321,32 +454,28 @@ footer{text-align:center;padding:2rem;font-size:12px;color:var(--text3);border-t
 
 <div class="section-title">Nog uit te werken</div>
 <div class="cg">
-  <div class="cc"><div class="cct"><span class="ce">🇺🇸</span><span class="cn">USA Westkust</span></div><div class="cb">Southwest NP of Pacific Coast Highway — routes al gedeeltelijk uitgewerkt.</div><div class="tags"><span class="tag">Grand Canyon</span><span class="tag">Zion</span><span class="tag">Bryce Canyon</span><span class="tag">Yosemite</span></div></div>
   <div class="cc"><div class="cct"><span class="ce">🇦🇺</span><span class="cn">Australië</span></div><div class="cb">East Coast camper, Uluru &amp; Outback, of combinatie.</div><div class="tags"><span class="tag">Uluru</span><span class="tag">East Coast</span><span class="tag">Great Barrier Reef</span></div></div>
   <div class="cc"><div class="cct"><span class="ce">🌏</span><span class="cn">Azië</span></div><div class="cb">Japan, Thailand, Vietnam of combinatiereis.</div><div class="tags"><span class="tag">Japan</span><span class="tag">Thailand</span><span class="tag">Vietnam</span></div></div>
 </div>
 </div>
 
-<footer>Familiereisplanner · v2.0 · Canada Rockies + Zuid-Afrika uitgewerkt</footer>
+<footer>Familiereisplanner · v3.0 · Canada · USA Westkust · Zuid-Afrika</footer>
 
 <script>
 function go(id,card){
-  document.querySelectorAll('.dest-card').forEach(function(c){c.classList.remove('active-ca','active-za')});
-  if(card) card.classList.add('active-'+id==='canada'?'ca':'za');
-  if(id==='canada') card.classList.add('active-ca');
-  if(id==='za') card.classList.add('active-za');
+  document.querySelectorAll('.dest-card').forEach(function(c){c.classList.remove('active-ca','active-za','active-us')});
+  if(id==='canada'&&card)card.classList.add('active-ca');
+  if(id==='za'&&card)card.classList.add('active-za');
+  if(id==='us'&&card)card.classList.add('active-us');
   document.querySelectorAll('.detail').forEach(function(d){d.classList.remove('visible')});
   var el=document.getElementById('detail-'+id);
-  if(el){el.classList.add('visible');el.scrollIntoView({behavior:'smooth',block:'nearest'})}
+  if(el){el.classList.add('visible');setTimeout(function(){el.scrollIntoView({behavior:'smooth',block:'nearest'})},50)}
 }
 function st(dest,name,btn){
   var panel=document.getElementById('detail-'+dest);
   if(!panel)return;
-  panel.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on-ca','on-za')});
-  if(btn){
-    var cls=dest==='canada'?'on-ca':'on-za';
-    btn.classList.add(cls);
-  }
+  panel.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on-ca','on-za','on-us')});
+  if(btn){btn.classList.add('on-'+dest==='canada'?'ca':dest==='za'?'za':'us')}
   panel.querySelectorAll('.tc').forEach(function(tc){tc.classList.remove('visible')});
   var target=document.getElementById(dest+'-'+name);
   if(target)target.classList.add('visible');
