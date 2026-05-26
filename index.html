@@ -526,9 +526,207 @@ function st(dest,name,btn){
   if(target)target.classList.add('visible');
 }
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function(){
+  const wrap = document.getElementById('globe-wrap');
+  const canvas = document.getElementById('globe-canvas');
+  const tooltip = document.getElementById('globe-tooltip');
+
+  const W = Math.min(wrap.clientWidth, 500);
+  const H = 400;
+  canvas.width = W; canvas.height = H;
+  const cx = W/2, cy = H/2, R = Math.min(W,H)*0.42;
+
+  const destinations = [
+    {name:'Canada Rockies',   lat:51.5,  lon:-116,  color:'#4ade80', status:'uitgewerkt', emoji:'🇨🇦'},
+    {name:'USA Westkust',     lat:36,    lon:-118,  color:'#4ade80', status:'uitgewerkt', emoji:'🇺🇸'},
+    {name:'Zuid-Afrika',      lat:-33.9, lon:18.4,  color:'#fb923c', status:'demo',       emoji:'🇿🇦'},
+    {name:'Australië',        lat:-25,   lon:133,   color:'#94a3b8', status:'gepland',    emoji:'🇦🇺'},
+    {name:'Azië',             lat:35.7,  lon:103,   color:'#94a3b8', status:'gepland',    emoji:'🌏'},
+    {name:'Cuba',             lat:22,    lon:-79,   color:'#94a3b8', status:'gepland',    emoji:'🇨🇺'},
+    {name:'Portugal',         lat:39.5,  lon:-8,    color:'#94a3b8', status:'gepland',    emoji:'🇵🇹'},
+    {name:'United Kingdom',   lat:54,    lon:-2,    color:'#94a3b8', status:'gepland',    emoji:'🇬🇧'},
+  ];
+
+  let rotY = 0, velY = 0, isDragging = false, prevX = 0, autoRotate = true;
+  let pulse = 0, hoveredPin = null;
+
+  function project(lat, lon) {
+    const phi = (90 - lat) * Math.PI / 180;
+    const theta = (lon * Math.PI / 180) + rotY;
+    const x = R * Math.sin(phi) * Math.sin(theta);
+    const y = -R * Math.cos(phi);
+    const z = R * Math.sin(phi) * Math.cos(theta);
+    return { x: cx + x, y: cy + y, z, visible: z > 0 };
+  }
+
+  function draw() {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, W, H);
+
+    // Globe base
+    const grad = ctx.createRadialGradient(cx - R*0.3, cy - R*0.3, R*0.1, cx, cy, R);
+    grad.addColorStop(0, '#2a5298');
+    grad.addColorStop(0.5, '#1a3a6b');
+    grad.addColorStop(1, '#0d1f3c');
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Grid lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    ctx.lineWidth = 0.8;
+
+    // Latitude lines
+    [-60,-30,0,30,60].forEach(lat => {
+      ctx.beginPath();
+      let first = true;
+      for(let lon = -180; lon <= 180; lon += 3) {
+        const p = project(lat, lon);
+        if(p.visible) { first ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); first = false; }
+        else { first = true; }
+      }
+      ctx.stroke();
+    });
+
+    // Longitude lines
+    for(let lon = -180; lon < 180; lon += 30) {
+      ctx.beginPath();
+      let first = true;
+      for(let lat = -90; lat <= 90; lat += 3) {
+        const p = project(lat, lon);
+        if(p.visible) { first ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); first = false; }
+        else { first = true; }
+      }
+      ctx.stroke();
+    }
+
+    // Equator highlight
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    let first = true;
+    for(let lon = -180; lon <= 180; lon += 2) {
+      const p = project(0, lon);
+      if(p.visible) { first ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); first = false; }
+      else { first = true; }
+    }
+    ctx.stroke();
+
+    // Globe edge glow
+    const edgeGrad = ctx.createRadialGradient(cx, cy, R*0.85, cx, cy, R);
+    edgeGrad.addColorStop(0, 'rgba(100,160,255,0)');
+    edgeGrad.addColorStop(1, 'rgba(100,160,255,0.18)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI * 2);
+    ctx.fillStyle = edgeGrad;
+    ctx.fill();
+
+    // Pins — back first, then front
+    const pins = destinations.map(d => ({ ...d, p: project(d.lat, d.lon) }));
+    const back  = pins.filter(d => !d.p.visible);
+    const front = pins.filter(d =>  d.p.visible);
+
+    // Back pins (dimmed)
+    back.forEach(d => {
+      ctx.beginPath();
+      ctx.arc(d.p.x, d.p.y, 4, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,0.12)';
+      ctx.fill();
+    });
+
+    // Front pins
+    front.forEach(d => {
+      const isHovered = hoveredPin && hoveredPin.name === d.name;
+      const pr = isHovered ? 9 : 7;
+
+      // Pulse ring
+      const pScale = 1 + 0.35 * Math.sin(pulse + destinations.indexOf(d) * 0.8);
+      ctx.beginPath();
+      ctx.arc(d.p.x, d.p.y, pr * pScale * 1.7, 0, Math.PI*2);
+      ctx.strokeStyle = d.color + '55';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Pin dot
+      ctx.beginPath();
+      ctx.arc(d.p.x, d.p.y, pr, 0, Math.PI*2);
+      const pinGrad = ctx.createRadialGradient(d.p.x-2, d.p.y-2, 1, d.p.x, d.p.y, pr);
+      pinGrad.addColorStop(0, '#ffffff');
+      pinGrad.addColorStop(0.4, d.color);
+      pinGrad.addColorStop(1, d.color + 'aa');
+      ctx.fillStyle = pinGrad;
+      ctx.fill();
+
+      // Emoji label
+      if(isHovered) {
+        ctx.font = '14px serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(d.emoji, d.p.x, d.p.y - pr - 6);
+      }
+    });
+
+    // Shine
+    const shine = ctx.createRadialGradient(cx - R*0.35, cy - R*0.38, 0, cx - R*0.1, cy - R*0.1, R*0.7);
+    shine.addColorStop(0, 'rgba(255,255,255,0.09)');
+    shine.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI*2);
+    ctx.fillStyle = shine;
+    ctx.fill();
+
+    // Border
+    ctx.beginPath();
+    ctx.arc(cx, cy, R, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(100,160,255,0.25)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+  }
+
+  // Drag
+  canvas.addEventListener('mousedown', e => { isDragging=true; autoRotate=false; prevX=e.clientX; velY=0; });
+  window.addEventListener('mouseup', () => { isDragging=false; setTimeout(()=>autoRotate=true, 2500); });
+  canvas.addEventListener('mousemove', e => {
+    if(isDragging){ velY=(e.clientX-prevX)*0.008; rotY+=velY; prevX=e.clientX; }
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX-rect.left, my = e.clientY-rect.top;
+    hoveredPin = null;
+    destinations.forEach(d => {
+      const p = project(d.lat, d.lon);
+      if(p.visible && Math.hypot(p.x-mx, p.y-my) < 14) hoveredPin = d;
+    });
+    if(hoveredPin){
+      canvas.style.cursor='pointer';
+      tooltip.style.opacity='1';
+      tooltip.style.left=(mx+14)+'px';
+      tooltip.style.top=(my-10)+'px';
+      tooltip.innerHTML=`${hoveredPin.emoji} <strong>${hoveredPin.name}</strong> <span style="opacity:.65;font-size:11px">${hoveredPin.status}</span>`;
+    } else {
+      canvas.style.cursor= isDragging ? 'grabbing' : 'grab';
+      tooltip.style.opacity='0';
+    }
+  });
+  canvas.addEventListener('touchstart', e=>{ isDragging=true; autoRotate=false; prevX=e.touches[0].clientX; velY=0; e.preventDefault(); },{passive:false});
+  window.addEventListener('touchend', ()=>{ isDragging=false; setTimeout(()=>autoRotate=true,2500); });
+  canvas.addEventListener('touchmove', e=>{ if(!isDragging)return; velY=(e.touches[0].clientX-prevX)*0.008; rotY+=velY; prevX=e.touches[0].clientX; e.preventDefault(); },{passive:false});
+
+  function loop(){
+    requestAnimationFrame(loop);
+    pulse += 0.04;
+    if(!isDragging){ velY*=0.88; rotY+=velY; if(autoRotate) rotY+=0.004; }
+    draw();
+  }
+  loop();
+
+  window.addEventListener('resize', ()=>{
+    const nW = Math.min(wrap.clientWidth,500);
+    canvas.width = nW; canvas.height = H;
+    draw();
+  });
+})();
+</script>
+</body>
   const wrap = document.getElementById('globe-wrap');
   const canvas = document.getElementById('globe-canvas');
   const tooltip = document.getElementById('globe-tooltip');
