@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Onze Familiereisplanner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F4EF;--surface:#FFFFFF;--surface2:#F0EDE6;
+  --border:rgba(60,50,30,0.12);--border2:rgba(60,50,30,0.22);
+  --text:#1C1810;--text2:#6B6050;--text3:#9B9080;
+  --green:#2D6A4F;--green-bg:#EAF4EE;
+  --blue:#1A4E7C;--blue-bg:#E6EEF8;
+  --amber:#8A5A00;--amber-bg:#FDF3DC;
+  --red:#8B2020;--red-bg:#FCEAEA;
+  --ca:#3D5A3E;--za:#8B3A1A;
+}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text);min-height:100vh}
+.hero{background:var(--ca);color:white;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,0.04)}
+.hero-inner{max-width:960px;margin:0 auto;position:relative;z-index:1}
+.hero-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;opacity:.6;margin-bottom:.75rem}
+.hero-title{font-family:'Fraunces',serif;font-size:40px;font-weight:500;line-height:1.15;margin-bottom:.75rem}
+.hero-sub{font-size:15px;opacity:.75;line-height:1.6;max-width:480px}
+.hero-meta{display:flex;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap}
+.hero-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border-radius:20px;padding:6px 14px;font-size:12px}
+.main{max-width:960px;margin:0 auto;padding:2rem}
+.section-title{font-family:'Fraunces',serif;font-size:22px;font-weight:500;margin-bottom:1.25rem;color:var(--text)}
+.dest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:2.5rem}
+.dest-card{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:1.25rem;cursor:pointer;transition:all .18s;position:relative}
+.dest-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.dest-card.active-ca{border:2px solid var(--ca)}
+.dest-card.active-za{border:2px solid var(--za)}
+.dest-card.locked{opacity:.6;cursor:default}
+.dest-card.locked:hover{transform:none;border-color:var(--border)}
+.dest-emoji{font-size:30px;display:block;margin-bottom:10px}
+.dest-name{font-family:'Fraunces',serif;font-size:15px;font-weight:500;color:var(--text)}
+.dest-sub{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.5}
+.badge{position:absolute;top:10px;right:10px;font-size:10px;font-weight:500;padding:3px 8px;border-radius:10px}
+.badge-done{background:var(--green-bg);color:var(--green)}
+.badge-demo{background:#FFF0E8;color:var(--za)}
+.badge-soon{background:var(--amber-bg);color:var(--amber)}
+.badge-later{background:var(--surface2);color:var(--text3)}
+.detail{display:none;border-radius:16px;border:1.5px solid var(--border);overflow:hidden;margin-bottom:2.5rem;background:var(--surface)}
+.detail.visible{display:block}
+.dh{color:white;padding:1.5rem;display:flex;align-items:center;gap:1rem}
+.dh.ca{background:var(--ca)}.dh.za{background:var(--za)}
+.de{font-size:40px}
+.dt{font-family:'Fraunces',serif;font-size:20px;font-weight:500}
+.dm{font-size:13px;opacity:.75;margin-top:4px}
+.tabs{display:flex;gap:0;border-bottom:1.5px solid var(--border);overflow-x:auto}
+.tab{padding:.9rem 1.25rem;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1.5px;white-space:nowrap;background:none;border-top:none;border-left:none;border-right:none;transition:color .15s}
+.tab:hover{color:var(--text)}
+.tab.on-ca{color:var(--ca);border-bottom-color:var(--ca)}
+.tab.on-za{color:var(--za);border-bottom-color:var(--za)}
+.tc{padding:1.5rem;display:none}
+.tc.visible{display:block}
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.rc{background:var(--surface2);border-radius:12px;padding:1.1rem}
+.rt{font-size:14px;font-weight:500;margin-bottom:6px}
+.rb{font-size:12px;color:var(--text2);line-height:1.7}
+.rtag{display:inline-block;margin-top:8px;font-size:11px;padding:2px 8px;border-radius:8px}
+.tg{color:var(--green);background:var(--green-bg)}
+.tr{color:var(--red);background:var(--red-bg)}
+.ta{color:var(--amber);background:var(--amber-bg)}
+.tb{color:var(--blue);background:var(--blue-bg)}
+.hr{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.hr:last-child{border-bottom:none}
+.hl{font-size:11px;color:var(--text3);min-width:90px}
+.hn{font-size:13px;color:var(--text);flex:1;line-height:1.4}
+.dd{display:flex;gap:3px;flex-shrink:0}
+.d{width:7px;height:7px;border-radius:50%;background:var(--border2)}
+.d.g{background:var(--green)}.d.z{background:var(--za)}
+.bi{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.bi:last-child{border-bottom:none;font-weight:500;font-size:14px;padding-top:14px}
+.bl{color:var(--text2)}.bv{color:var(--text);font-weight:500}
+.tl{display:flex;flex-direction:column}
+.ti{display:flex;gap:14px;padding-bottom:20px}
+.ti:last-child{padding-bottom:0}
+.tll{display:flex;flex-direction:column;align-items:center}
+.td{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.td.ca{background:var(--ca)}.td.za{background:var(--za)}.td.f{background:var(--surface2);border:2px solid var(--border2)}
+.tln{flex:1;width:1.5px;background:var(--border);margin:4px 0}
+.tdate{font-size:11px;font-weight:500;color:var(--text3);min-width:110px;padding-top:2px}
+.tbody{font-size:13px;color:var(--text);line-height:1.5}
+.tsub{font-size:12px;color:var(--text2);margin-top:2px}
+.ar{display:flex;align-items:center;gap:12px;padding:12px;background:var(--surface2);border-radius:10px;margin-bottom:8px}
+.al{font-size:13px;font-weight:500;min-width:120px}
+.at{font-size:12px;color:var(--text2);flex:1}
+.ag{font-size:11px;padding:3px 10px;border-radius:10px;white-space:nowrap}
+.warn{background:var(--red-bg);border:1px solid rgba(139,32,32,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--red);line-height:1.6}
+.info{background:var(--green-bg);border:1px solid rgba(45,106,79,.2);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:var(--green);line-height:1.6}
+.lg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:1rem}
+.lc{background:var(--surface2);border-radius:10px;padding:1rem;text-decoration:none;color:inherit;transition:all .15s;border:1px solid transparent;display:block}
+.lc:hover{border-color:var(--border2);transform:translateY(-1px)}
+.lct{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.le{font-size:20px}
+.ln{font-size:13px;font-weight:500;color:var(--text)}
+.ld{font-size:11px;color:var(--text2);line-height:1.5}
+.lu{font-size:10px;color:var(--text3);margin-top:4px}
+.rc2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem}
+@media(max-width:600px){.rc2{grid-template-columns:1fr}}
+.rcrd{border-radius:12px;padding:1.25rem;border:2px solid}
+.rcg{background:#F0F9F4;border-color:var(--green)}
+.rca{background:#FFF8EC;border-color:#C78B00}
+.rctt{font-size:14px;font-weight:500;margin-bottom:8px}
+.rcb{font-size:12px;color:var(--text2);line-height:1.7}
+.rcv{display:inline-block;font-size:11px;padding:3px 10px;border-radius:8px;margin-top:8px}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:3rem}
+.cc{background:var(--surface);border:1.5px dashed var(--border2);border-radius:14px;padding:1.25rem}
+.cct{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ce{font-size:26px}
+.cn{font-family:'Fraunces',serif;font-size:15px;font-weight:500}
+.cb{font-size:12px;color:var(--text2);line-height:1.6}
+.tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:10px;padding:2px 8px;border-radius:8px;background:var(--surface2);color:var(--text3)}
+footer{text-align:center;padding:2rem;font-size:12px;color:var(--text3);border-top:1px solid var(--border);margin-top:1rem}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">Familiereisplanner</div>
+    <div class="hero-title">Onze grote<br><em>reisdromen</em></div>
+    <div class="hero-sub">Alles op één plek: routes, wandelingen, budgetten en boekingstimelines voor onze toekomstige familiereizen.</div>
+    <div class="hero-meta">
+      <div class="hero-pill">👨‍👩‍👦 Gezin van 3</div>
+      <div class="hero-pill">🧒 Zoontje · nu 2 jaar</div>
+      <div class="hero-pill">🚐 RV avonturiers</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+<div class="section-title">Bestemmingen</div>
+<div class="dest-grid">
+  <div class="dest-card active-ca" onclick="go('canada',this)">
+    <span class="badge badge-done">uitgewerkt</span>
+    <span class="dest-emoji">🇨🇦</span>
+    <div class="dest-name">Canada Rockies</div>
+    <div class="dest-sub">Calgary → Banff → Jasper → Vancouver</div>
+  </div>
+  <div class="dest-card" onclick="go('za',this)">
+    <span class="badge badge-demo">demo</span>
+    <span class="dest-emoji">🇿🇦</span>
+    <div class="dest-name">Zuid-Afrika</div>
+    <div class="dest-sub">Kaapstad · Garden Route · Safari</div>
+  </div>
+  <div class="dest-card locked">
+    <span class="badge badge-soon">in planning</span>
+    <span class="dest-emoji">🇺🇸</span>
+    <div class="dest-name">USA Westkust</div>
+    <div class="dest-sub">Southwest NP of Pacific Coast</div>
+  </div>
+  <div class="dest-card locked">
+    <span class="badge badge-later">later</span>
+    <span class="dest-emoji">🇦🇺</span>
+    <div class="dest-name">Australië</div>
+    <div class="dest-sub">Nog uit te werken</div>
+  </div>
+  <div class="dest-card locked">
+    <span class="badge badge-later">later</span>
+    <span class="dest-emoji">🌏</span>
+    <div class="dest-name">Azië</div>
+    <div class="dest-sub">Nog uit te werken</div>
+  </div>
+</div>
+
+<!-- CANADA -->
+<div class="detail visible" id="detail-canada">
+  <div class="dh ca"><div class="de">🇨🇦</div><div><div class="dt">Canada Rockies — 21 dagen</div><div class="dm">Calgary ✈ · RV Fraserway · 3 personen · Zomer 2027 of 2028</div></div></div>
+  <div class="tabs">
+    <button class="tab on-ca" onclick="st('canada','routes',this)">Routes</button>
+    <button class="tab" onclick="st('canada','hikes',this)">Wandelingen</button>
+    <button class="tab" onclick="st('canada','budget',this)">Budget</button>
+    <button class="tab" onclick="st('canada','timeline',this)">Boekingstimeline</button>
+    <button class="tab" onclick="st('canada','ages',this)">Leeftijden</button>
+  </div>
+  <div class="tc visible" id="canada-routes">
+    <div class="rg">
+      <div class="rc"><div class="rt">🏔️ Week 1 — Calgary &amp; Banff</div><div class="rb">Dag 1–6 · 130 km<br>Heritage Park · Tunnel Mountain<br>Johnston Canyon · Lake Louise<br>Moraine Lake (shuttle verplicht)</div><span class="rtag tg">Turquoise meren</span></div>
+      <div class="rc"><div class="rt">🧊 Week 2 — Icefields Parkway</div><div class="rb">Dag 7–8 · 230 km<br>Peyto Lake boardwalk<br>Athabasca Glacier · Ice Explorer<br>Monstertruck op de gletsjer!</div><span class="rtag tg">Spectaculairste rit</span></div>
+      <div class="rc"><div class="rt">🐻 Week 2 — Jasper NP</div><div class="rb">Dag 9–12 · Whistlers Campground<br>SkyTram · Maligne Lake<br>Valley of Five Lakes<br>Avonddrive wildlife spotten</div><span class="rtag tg">Rustiger dan Banff</span></div>
+      <div class="rc"><div class="rt">💧 Week 3 — Wells Gray</div><div class="rb">Dag 13–14 · Clearwater<br>Helmcken Falls (2 min lopen!)<br>Dawson Falls · "Little Niagara"</div><span class="rtag tg">Verborgen parel</span></div>
+      <div class="rc"><div class="rt">🎿 Week 3 — Whistler</div><div class="rb">Dag 15–17 · Sea to Sky Hwy<br>Peak 2 Peak Gondola<br>Shannon Falls · Lost Lake</div><span class="rtag tg">Kids &lt;6 gratis gondola</span></div>
+      <div class="rc"><div class="rt">🌊 Week 3 — Vancouver</div><div class="rb">Dag 18–21 · RV inleveren<br>Vancouver Aquarium · Stanley Park<br>Kitsilano strand</div><span class="rtag tg">Perfecte finale</span></div>
+    </div>
+  </div>
+  <div class="tc" id="canada-hikes">
+    <div class="hr"><span class="hl">Banff</span><span class="hn">Fenland Trail — 2 km lus, vlak, stroller-friendly</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Banff</span><span class="hn">Johnston Canyon — catwalks langs rotswand, watervallen</span><div class="dd"><div class="d g"></div><div class="d g"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Banff</span><span class="hn">Lake Louise oever — vlak, strollervriendelijk, turquoise</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Banff</span><span class="hn">Tunnel Mountain — makkelijkste bergtop, kinderen voelen zich helden</span><div class="dd"><div class="d g"></div><div class="d g"></div><div class="d g"></div></div></div>
+    <div class="hr"><span class="hl">Icefields Pkwy</span><span class="hn">Peyto Lake boardwalk — 800 m, snelste wow-moment</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Icefields Pkwy</span><span class="hn">Athabasca Falls — 500 m, veilige platforms, spectaculair</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Jasper</span><span class="hn">Lake Annette Loop — 2,7 km rond meer, peuter-proof</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Jasper</span><span class="hn">Valley of Five Lakes — 4,7 km, 5 kleurrijke meren ⚠️ check status</span><div class="dd"><div class="d g"></div><div class="d g"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Jasper</span><span class="hn">Pyramid Island brug — 1 km, houten brug naar eilandje</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Wells Gray</span><span class="hn">Helmcken Falls — 1 km lus, 4e hoogste waterval Canada</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Wells Gray</span><span class="hn">Dawson Falls — 500 m vlak bospad, "Little Niagara"</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Whistler</span><span class="hn">Shannon Falls — 500 m, strollervriendelijk Sea to Sky</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Whistler</span><span class="hn">Lost Lake Nature Trail — 2,7 km bos en zwemmeer</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Whistler</span><span class="hn">Train Wreck Trail — 3 km, verongelukte treinen met graffiti</span><div class="dd"><div class="d g"></div><div class="d g"></div><div class="d"></div></div></div>
+    <div class="hr"><span class="hl">Vancouver</span><span class="hn">Stanley Park Seawall — 2–5 km vlak langs zee, per fiets</span><div class="dd"><div class="d g"></div><div class="d"></div><div class="d"></div></div></div>
+    <p style="font-size:12px;color:var(--text3);margin-top:14px">Moeilijkheid: ● vlak · ●● licht · ●●● matig. Berenspray verplicht in Banff en Jasper.</p>
+  </div>
+  <div class="tc" id="canada-budget">
+    <div class="bi"><span class="bl">✈️ Vluchten open-jaw · 2 volw. + 1 kind</span><span class="bv">€2.890</span></div>
+    <div class="bi"><span class="bl">🏨 Hotel nacht 1 Calgary (Canadese wet)</span><span class="bv">€250</span></div>
+    <div class="bi"><span class="bl">🚐 RV Fraserway 20 nachten piek</span><span class="bv">€2.800 – €4.000</span></div>
+    <div class="bi"><span class="bl">🔄 One-way toeslag Calgary → Vancouver</span><span class="bv">€475</span></div>
+    <div class="bi"><span class="bl">📦 Km-pakket + beddengoed + verzekering</span><span class="bv">€400 – €1.100</span></div>
+    <div class="bi"><span class="bl">🏕️ Campings 20 nachten met elektriciteit</span><span class="bv">€600 – €900</span></div>
+    <div class="bi"><span class="bl">🍁 Parks Canada Discovery Pass</span><span class="bv">€109</span></div>
+    <div class="bi"><span class="bl">⛽ Brandstof ~1.500 km zware RV</span><span class="bv">€500 – €700</span></div>
+    <div class="bi"><span class="bl">🛒 Eten &amp; boodschappen 21 dagen</span><span class="bv">€700 – €900</span></div>
+    <div class="bi"><span class="bl">🎒 Activiteiten Ice Explorer · gondola · aquarium</span><span class="bv">€300 – €500</span></div>
+    <div class="bi"><span class="bl">Totaal gezin van 3</span><span class="bv">€9.024 – €12.824</span></div>
+  </div>
+  <div class="tc" id="canada-timeline">
+    <div class="tl">
+      <div class="ti"><div class="tll"><div class="td ca"></div><div class="tln"></div></div><div><div class="tdate">Okt – Dec 2026</div><div class="tbody">RV boeken bij Fraserway + vluchten reserveren</div><div class="tsub">Early-bird korting · one-way Calgary → Vancouver</div></div></div>
+      <div class="ti"><div class="tll"><div class="td f"></div><div class="tln"></div></div><div><div class="tdate">Jan / Feb 2027</div><div class="tbody">Parks Canada campings reserveren — stipt 8u 's ochtends!</div><div class="tsub">Tunnel Mountain · Whistlers · Lake Louise</div></div></div>
+      <div class="ti"><div class="tll"><div class="td f"></div><div class="tln"></div></div><div><div class="tdate">Voorjaar 2027</div><div class="tbody">Ice Explorer, SkyTram, Vancouver Aquarium boeken</div><div class="tsub">Ice Explorer raakt snel volgeboekt in de zomerpiek</div></div></div>
+      <div class="ti"><div class="tll"><div class="td f"></div></div><div><div class="tdate">Zomer 2027</div><div class="tbody">✈️ Vertrek! Calgary → 21 dagen → Vancouver ✈️</div><div class="tsub">Zoontje ±3,5 jaar · kinderen &lt;6 gratis bij SkyTram &amp; gondola</div></div></div>
+    </div>
+  </div>
+  <div class="tc" id="canada-ages">
+    <div class="ar"><span class="al">Nu · 2 jaar</span><span class="at">Te jong voor lange autoritten en wandelingen</span><span class="ag" style="background:var(--surface2);color:var(--text3)">nog niet</span></div>
+    <div class="ar"><span class="al">Zomer 2027 · 3,5 j.</span><span class="at">Prima! Korte wandelingen, camping, wildlife spotten</span><span class="ag" style="background:var(--green-bg);color:var(--green)">go!</span></div>
+    <div class="ar"><span class="al">Zomer 2028 · 4,5 j.</span><span class="at">Nog beter — meer zelfstandig, langere wandelingen</span><span class="ag" style="background:var(--green-bg);color:var(--green)">ideaal</span></div>
+    <p style="font-size:12px;color:var(--text3);margin-top:14px">Kinderen onder 5 gratis bij Jasper SkyTram &amp; Whistler gondola · boosterstoeltje verplicht tot 9 jaar of 145 cm.</p>
+  </div>
+</div>
+
+<!-- ZUID-AFRIKA -->
+<div class="detail" id="detail-za">
+  <div class="dh za"><div class="de">🇿🇦</div><div><div class="dt">Zuid-Afrika — 14 à 21 dagen</div><div class="dm">Kaapstad ✈ · Huurauto · 3 personen · Beste tijd: mei – september</div></div></div>
+  <div class="tabs">
+    <button class="tab on-za" onclick="st('za','routes',this)">Routes</button>
+    <button class="tab" onclick="st('za','stops',this)">Topbestemmingen</button>
+    <button class="tab" onclick="st('za','budget',this)">Budget</button>
+    <button class="tab" onclick="st('za','tips',this)">Praktisch &amp; malaria</button>
+    <button class="tab" onclick="st('za','ages',this)">Leeftijden</button>
+    <button class="tab" onclick="st('za','links',this)">Links</button>
+  </div>
+  <div class="tc visible" id="za-routes">
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem;line-height:1.7">Zuid-Afrika biedt twee klassieke gezinsroutes. De Garden Route is de veiligste keuze met jonge kinderen — <strong>100% malariavrij</strong>. De Kruger-route geeft een indrukwekkendere safari maar vereist malariamedicatie.</p>
+    <div class="rc2">
+      <div class="rcrd rcg">
+        <div class="rctt">✅ Route 1 — Garden Route</div>
+        <div class="rcb"><strong>Kaapstad → Hermanus → Mosselbaai → Knysna → Plettenbergbaai → Tsitsikamma NP → Addo Elephant NP</strong><br><br>~14 dagen · ~1.200 km · huurauto<br>Malariavrij ✅ · Ideaal voor jonge kinderen<br>Kaapstad (Tafelberg, pinguïns, Bo-Kaap)<br>Hermanus: walvissen spotten (jul–nov)<br>Knysna: lagune, bossen, olifanten<br>Tsitsikamma: hangbruggen in regenwoud<br>Addo: Big Five safari, volledig malariavrij</div>
+        <span class="rcv" style="background:var(--green-bg);color:var(--green)">Aanbevolen met jonge kinderen ✅</span>
+      </div>
+      <div class="rcrd rca">
+        <div class="rctt">⚠️ Route 2 — Kruger &amp; Panoramaroute</div>
+        <div class="rcb"><strong>Johannesburg → Panoramaroute → Hazyview → Kruger NP → terug Joburg</strong><br><br>~10 dagen · ~1.000 km · huurauto<br>Malaria ⚠️ medicatie verplicht<br>Big Five met grootste kans op alle vijf<br>Blyde River Canyon (3e grootste ter wereld)<br>Self-drive Kruger of geleide game drives<br>Skukuza rest camp met speeltuin en zwembad</div>
+        <span class="rcv" style="background:var(--amber-bg);color:var(--amber)">Wacht tot kind 6+ jaar is ⏳</span>
+      </div>
+    </div>
+    <div class="info">💡 <strong>Malariavrij safari alternatief:</strong> Addo Elephant NP (Eastern Cape), Pilanesberg NP (North West) en Aquila Private Game Reserve (nabij Kaapstad) bieden alle drie Big Five — zonder enig malariarisico.</div>
+  </div>
+  <div class="tc" id="za-stops">
+    <div class="rg">
+      <div class="rc"><div class="rt">🌄 Kaapstad</div><div class="rb">Tafelberg kabelbaan · Bo-Kaap wijk<br>Boulders Beach pinguïns<br>Kaap de Goede Hoop<br>Chapman's Peak Drive<br>V&amp;A Waterfront</div><span class="rtag tg">Perfecte startstad</span></div>
+      <div class="rc"><div class="rt">🐋 Hermanus</div><div class="rb">Walvissen spotten (jul–nov)<br>Stony Point pinguïnkolonie<br>Tidal pools voor kinderen<br>Relaxte kustsfeer</div><span class="rtag tb">Jul–Nov beste tijd</span></div>
+      <div class="rc"><div class="rt">🌿 Knysna</div><div class="rb">Knysna Heads uitzichtpunt<br>Lagune kayakken<br>Tsitsikamma bos<br>Knysna olifanten</div><span class="rtag tg">Malariavrij</span></div>
+      <div class="rc"><div class="rt">🌊 Tsitsikamma NP</div><div class="rb">Hangbruggen in het regenwoud<br>Storms River Mouth wandeling<br>Bloukrans Bridge bungyjump<br>Zeekajak tours</div><span class="rtag tg">Malariavrij</span></div>
+      <div class="rc"><div class="rt">🐘 Addo Elephant NP</div><div class="rb">Zuid-Afrika's 3e grootste park<br>Big Five · 100% malariavrij<br>Olifanten naast je auto!<br>Kindvriendelijke rest camps</div><span class="rtag tg">Beste keuze peuters ✅</span></div>
+      <div class="rc"><div class="rt">🦁 Kruger NP</div><div class="rb">Self-drive of geleide game drives<br>Big Five kans zeer hoog<br>Skukuza: speeltuin &amp; zwembad<br>Sunrise &amp; sunset drives</div><span class="rtag tr">Malaria ⚠️ wacht tot 6+</span></div>
+      <div class="rc"><div class="rt">🏔️ Blyde River Canyon</div><div class="rb">3e grootste canyon ter wereld<br>God's Window uitzicht<br>Bourke's Luck Potholes<br>Drie Rondavels formatie</div><span class="rtag ta">Combineer met Kruger</span></div>
+      <div class="rc"><div class="rt">🍷 Kaapse Wijnlanden</div><div class="rb">Stellenbosch &amp; Franschhoek<br>Kindvriendelijke wijnboerderijen<br>Prachtige berglandschappen<br>Halve dag vanuit Kaapstad</div><span class="rtag tg">Daguitstap</span></div>
+    </div>
+  </div>
+  <div class="tc" id="za-budget">
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Schatting voor Garden Route, 14 dagen, gezin van 3. Zuid-Afrika is relatief goedkoop voor Europeanen (1 EUR ≈ 20 ZAR).</p>
+    <div class="bi"><span class="bl">✈️ Vluchten AMS → Kaapstad retour (3 pers.)</span><span class="bv">€2.400 – €3.200</span></div>
+    <div class="bi"><span class="bl">🚗 Huurauto 13 dagen (gezinsauto)</span><span class="bv">€600 – €1.000</span></div>
+    <div class="bi"><span class="bl">🏨 Accommodatie 13 nachten (lodges/guesthouses)</span><span class="bv">€800 – €1.800</span></div>
+    <div class="bi"><span class="bl">⛽ Brandstof ~1.200 km</span><span class="bv">€120 – €180</span></div>
+    <div class="bi"><span class="bl">🐘 Parkingang (Addo, Tafelberg, pinguïns...)</span><span class="bv">€150 – €250</span></div>
+    <div class="bi"><span class="bl">🛒 Eten &amp; restaurants</span><span class="bv">€500 – €800</span></div>
+    <div class="bi"><span class="bl">🎒 Activiteiten &amp; uitstappen</span><span class="bv">€300 – €500</span></div>
+    <div class="bi"><span class="bl">Totaal gezin van 3 (Garden Route)</span><span class="bv">€4.870 – €7.730</span></div>
+  </div>
+  <div class="tc" id="za-tips">
+    <div class="warn">⚠️ <strong>Malaria — belangrijk voor jonge kinderen:</strong> Kruger NP is malaria-risicogebied, hoogste risico oktober–mei. Kindermalariamedicatie bestaat maar moet door een kinderarts worden voorgeschreven. Raadpleeg je huisarts minstens 6 weken voor vertrek. Voor kinderen onder 6 jaar raden we een malariavrij alternatief aan (Addo of Pilanesberg).</div>
+    <div class="info">✅ <strong>Malariavrije opties met Big Five:</strong> Addo Elephant NP · Pilanesberg NP · Aquila Private Game Reserve (nabij Kaapstad)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:1rem">
+      <div class="rc"><div class="rt">🕐 Beste reistijd</div><div class="rb">Mei–september = droog seizoen = onze zomermaanden. Aangenaam weer (15–25°C), geen malaria piek, dieren verzamelen bij waterpoelen = makkelijker spotten.</div></div>
+      <div class="rc"><div class="rt">✈️ Vlucht &amp; tijdsverschil</div><div class="rb">AMS → Kaapstad ±11 uur direct met KLM of SA Airways. Slechts 1 uur tijdsverschil — ideaal voor kinderen!</div></div>
+      <div class="rc"><div class="rt">🚗 Links rijden</div><div class="rb">In Zuid-Afrika rijdt men links. Wegen langs de Garden Route zijn uitstekend. Vermijd 's nachts rijden buiten steden en townships.</div></div>
+      <div class="rc"><div class="rt">🔒 Veiligheid</div><div class="rb">Toeristische gebieden en lodges zijn veilig. Gebruik altijd een beveiligd appartement of guesthouse. Lokaal advies over veiligheid altijd opvolgen.</div></div>
+    </div>
+  </div>
+  <div class="tc" id="za-ages">
+    <div class="ar"><span class="al">Nu · 2 jaar</span><span class="at">Te jong voor lange vluchten en safaris</span><span class="ag" style="background:var(--surface2);color:var(--text3)">nog niet</span></div>
+    <div class="ar"><span class="al">3–5 jaar</span><span class="at">Garden Route ✅ · Addo olifanten ✅ · Kruger ⚠️ malaria</span><span class="ag" style="background:var(--green-bg);color:var(--green)">Garden Route ok</span></div>
+    <div class="ar"><span class="al">6–8 jaar</span><span class="at">Kruger self-drive nu mogelijk met medicatie · meer activiteiten</span><span class="ag" style="background:var(--green-bg);color:var(--green)">ideaal</span></div>
+    <div class="ar"><span class="al">8+ jaar</span><span class="at">Volledige tour: Kruger + Garden Route + Kaapstad</span><span class="ag" style="background:var(--green-bg);color:var(--green)">ultieme trip</span></div>
+    <p style="font-size:12px;color:var(--text3);margin-top:14px">💡 Privé game lodge met bewuste wildlife guides is veiliger dan self-drive Kruger voor peuters — altijd een optie om te overwegen.</p>
+  </div>
+  <div class="tc" id="za-links">
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">Handige links voor verdere research:</p>
+    <div class="lg">
+      <a href="https://www.sanparks.org/parks/addo/" target="_blank" class="lc"><div class="lct"><span class="le">🐘</span><span class="ln">Addo Elephant NP</span></div><div class="ld">Officiële SANParks pagina — reservaties, tarieven en kaarten</div><div class="lu">sanparks.org/addo</div></a>
+      <a href="https://www.sanparks.org/parks/kruger/" target="_blank" class="lc"><div class="lct"><span class="le">🦁</span><span class="ln">Kruger National Park</span></div><div class="ld">Officiële site — kamperen, self-drive routes, rest camps boeken</div><div class="lu">sanparks.org/kruger</div></a>
+      <a href="https://www.tablemountain.net/" target="_blank" class="lc"><div class="lct"><span class="le">🏔️</span><span class="ln">Tafelberg Kabelbaan</span></div><div class="ld">Tickets, openingstijden en weerinformatie voor de Tafelberg</div><div class="lu">tablemountain.net</div></a>
+      <a href="https://www.pilanesberg-game-reserve.co.za/" target="_blank" class="lc"><div class="lct"><span class="le">🦏</span><span class="ln">Pilanesberg NP</span></div><div class="ld">Malariavrij safari park nabij Johannesburg — Big Five</div><div class="lu">pilanesberg-game-reserve.co.za</div></a>
+      <a href="https://kleineglobetrotter.nl/zuid-afrika-met-kinderen-zien-en-doen/" target="_blank" class="lc"><div class="lct"><span class="le">👨‍👩‍👧</span><span class="ln">Kleine Globetrotter ZA</span></div><div class="ld">Nederlandse blog: Zuid-Afrika met kinderen, routes en tips</div><div class="lu">kleineglobetrotter.nl</div></a>
+      <a href="https://thetravelingkid.nl/rondreis-zuid-afrika-met-kinderen/" target="_blank" class="lc"><div class="lct"><span class="le">🗺️</span><span class="ln">The Traveling Kid</span></div><div class="ld">Kindvriendelijke roadtrip: ervaringen van een Nederlands gezin</div><div class="lu">thetravelingkid.nl</div></a>
+      <a href="https://www.sa-venues.com/whale-watching/hermanus.htm" target="_blank" class="lc"><div class="lct"><span class="le">🐋</span><span class="ln">Walvissen Hermanus</span></div><div class="ld">Walvisseizoen, boot tours en beste kijkplekken in Hermanus</div><div class="lu">sa-venues.com</div></a>
+      <a href="https://www.snoezelsontheroad.com/en/south-africa/garden-route-in-south-africa-ultimate-7-day-itinerary/" target="_blank" class="lc"><div class="lct"><span class="le">🌿</span><span class="ln">Garden Route 7-daags</span></div><div class="ld">Uitgebreide dag-voor-dag planning Garden Route</div><div class="lu">snoezelsontheroad.com</div></a>
+    </div>
+  </div>
+</div>
+
+<div class="section-title">Nog uit te werken</div>
+<div class="cg">
+  <div class="cc"><div class="cct"><span class="ce">🇺🇸</span><span class="cn">USA Westkust</span></div><div class="cb">Southwest NP of Pacific Coast Highway — routes al gedeeltelijk uitgewerkt.</div><div class="tags"><span class="tag">Grand Canyon</span><span class="tag">Zion</span><span class="tag">Bryce Canyon</span><span class="tag">Yosemite</span></div></div>
+  <div class="cc"><div class="cct"><span class="ce">🇦🇺</span><span class="cn">Australië</span></div><div class="cb">East Coast camper, Uluru &amp; Outback, of combinatie.</div><div class="tags"><span class="tag">Uluru</span><span class="tag">East Coast</span><span class="tag">Great Barrier Reef</span></div></div>
+  <div class="cc"><div class="cct"><span class="ce">🌏</span><span class="cn">Azië</span></div><div class="cb">Japan, Thailand, Vietnam of combinatiereis.</div><div class="tags"><span class="tag">Japan</span><span class="tag">Thailand</span><span class="tag">Vietnam</span></div></div>
+</div>
+</div>
+
+<footer>Familiereisplanner · v2.0 · Canada Rockies + Zuid-Afrika uitgewerkt</footer>
+
+<script>
+function go(id,card){
+  document.querySelectorAll('.dest-card').forEach(function(c){c.classList.remove('active-ca','active-za')});
+  if(card) card.classList.add('active-'+id==='canada'?'ca':'za');
+  if(id==='canada') card.classList.add('active-ca');
+  if(id==='za') card.classList.add('active-za');
+  document.querySelectorAll('.detail').forEach(function(d){d.classList.remove('visible')});
+  var el=document.getElementById('detail-'+id);
+  if(el){el.classList.add('visible');el.scrollIntoView({behavior:'smooth',block:'nearest'})}
+}
+function st(dest,name,btn){
+  var panel=document.getElementById('detail-'+dest);
+  if(!panel)return;
+  panel.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on-ca','on-za')});
+  if(btn){
+    var cls=dest==='canada'?'on-ca':'on-za';
+    btn.classList.add(cls);
+  }
+  panel.querySelectorAll('.tc').forEach(function(tc){tc.classList.remove('visible')});
+  var target=document.getElementById(dest+'-'+name);
+  if(target)target.classList.add('visible');
+}
+</script>
+</body>
+</html>
